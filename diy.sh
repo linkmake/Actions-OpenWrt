@@ -12,3 +12,6 @@ cd package
 mkdir openwrt-packages
 cd openwrt-packages
 git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
+
+./scripts/feeds update -a
+./scripts/feeds install -a
