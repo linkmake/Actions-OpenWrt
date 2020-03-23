@@ -108,9 +108,13 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        echo "::set-env name=FIRMWARE::$PWD"
+        rm -rf openwrt/artifact/
+        mkdir -p openwrt/artifact/
+        find openwrt/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} openwrt/artifact/
+        find openwrt/bin/targets/ -name "*config*seed*" | xargs -i mv -f {} openwrt/artifact/
+        find openwrt/bin/targets/ -name "*sha256sums*" | xargs -i mv -f {} openwrt/artifact/
+        cd openwrt/artifact/
+        echo "::set-env name=FIRMWARE::$(pwd)"
         echo "::set-output name=status::success"
 
     - name: Upload firmware directory
